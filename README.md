@@ -17,14 +17,14 @@ This adversarial attack works off CNN attacks (Res-Net 18 used by default from T
 ### System Requirements
 
 --index-url https://download.pytorch.org/whl/cu116
-torch==1.12.1+cu116
-torchvision==0.13.1+cu116
-tqdm
-pandas
-timm
-scikit-optimize
-matplotlib
-kornia
+torch==1.12.1+cu116  
+torchvision==0.13.1+cu116  
+tqdm  
+pandas  
+timm  
+scikit-optimize  
+matplotlib  
+kornia  
 
 ### Contact
 For further questions or concerns please contact the author at: nathanmurphy20@uri.edu

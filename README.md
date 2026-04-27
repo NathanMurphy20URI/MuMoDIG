@@ -12,11 +12,19 @@ Github Link: https://github.com/RYC-98/MuMoDIG?tab=readme-ov-file
 
 ### Models
 
+This adversarial attack works off CNN attacks (Res-Net 18 used by default from Torchnet), as well as ViT's such as Pooling Based Vision Transformer
+
 ### System Requirements
 
-Python 3.6.9.
-
-PyTorch 1.7.0
+--index-url https://download.pytorch.org/whl/cu116
+torch==1.12.1+cu116
+torchvision==0.13.1+cu116
+tqdm
+pandas
+timm
+scikit-optimize
+matplotlib
+kornia
 
 ### Contact
 For further questions or concerns please contact the author at: nathanmurphy20@uri.edu

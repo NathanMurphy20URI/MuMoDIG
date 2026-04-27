@@ -6,6 +6,7 @@ https://ojs.aaai.org/index.php/AAAI/article/view/32722
 
 Github Link: https://github.com/RYC-98/MuMoDIG?tab=readme-ov-file
 
+trained on Imagenet
 ### Step by Step Guide
 
 ### Software Installation

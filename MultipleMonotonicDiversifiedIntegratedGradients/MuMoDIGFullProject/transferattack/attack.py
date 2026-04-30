@@ -5,6 +5,8 @@ import numpy as np
 
 from .utils import *
 
+#Main change in MuMoDIG is the inclusion of specifically named models in the load_model function, since this attack works with ViTs.
+
 class Attack(object): 
     """
     Base class for all attacks.

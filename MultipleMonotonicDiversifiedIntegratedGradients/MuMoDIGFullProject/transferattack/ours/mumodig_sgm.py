@@ -11,6 +11,7 @@ from ..lb_quantization import LBQuantization
 import scipy.stats as st
 # import random
 
+#pairing MUMODIG with SGM (Skip Gradient Method) to further enhance transferability and success rate of adversarial examples
 class MUMODIG_SGM(MIFGSM):
 
     # 注意测试时是 num_scale=5

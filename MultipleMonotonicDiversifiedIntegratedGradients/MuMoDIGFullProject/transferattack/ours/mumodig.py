@@ -12,6 +12,10 @@ import scipy.stats as st
 
 class MUMODIG(MIFGSM):
 
+    #mumodig: multiple monotonic diversified integrated gradients attack. 
+     #imports MIFGSM, or Momentum Iterative Fast Gradient Sign Method and builds off of it
+    #adds multiplicity, LBQ baselines, input transformations.
+    #IG (integrated gradients) instead of plain gradients 
 
     def __init__(self, model_name, epsilon=16/255, alpha=1.6/255, epoch=10, decay=1., 
                  N_trans = 6, N_base = 1, N_intepolate = 1, region_num = 2, lamb = 0.65, # 6,1,1,2,0.65
@@ -35,6 +39,8 @@ class MUMODIG(MIFGSM):
             labels (N,): tensor for ground-truth labels if untargetd
             labels (2,N): tensor for [ground-truth, targeted labels] if targeted
         """
+        #runs the full attack, returns the final adversarial perturbation delta.
+
         if self.targeted:
             assert len(label) == 2
             label = label[1] # the second element is the targeted label tensor
@@ -43,13 +49,13 @@ class MUMODIG(MIFGSM):
 
         # Initialize adversarial perturbation
         delta = self.init_delta(data) 
-
+        #initial momentum is neutral 
         momentum = 0
 
 
         for iter_out in range(self.epoch):
 
-            
+            #takes gradients and combines them
             sole_grad = self.ig(data, delta, label)
             exp_grad = self.exp_ig(data, delta, label)
             ig_grad = sole_grad  + exp_grad
@@ -66,9 +72,11 @@ class MUMODIG(MIFGSM):
     def ig(self, data, delta, label, **kwargs): 
         
         ig = 0
-
+        #adds multiplicity to IG by using multiple baselines
         for i_base in range(self.N_base):
+            #generate baseline with LBQ (quantize)
             baseline = self.quant(data+delta).clone().detach().to(self.device) 
+            #IG path, or displacedment from baseline to adversarial example
             path = data+delta - baseline
             acc_grad = 0   
             for i_inter in range(self.N_intepolate):
@@ -90,20 +98,22 @@ class MUMODIG(MIFGSM):
 
 
     def exp_ig(self, data, delta, label, **kwargs):
-        
+        #further work on IG by applying random transformations, computing baseline, and then weighing
+        #diversity
         ig = 0
 
         for i_trans in range(self.N_trans):
-
+            #randomly augment image + loop through transformations
             x_transform = self.select_transform_apply(data+delta)
 
             for i_base in range(self.N_base):
-
+                #lBQ baseline for transformed image
                 baseline = self.quant(x_transform).clone().detach().to(self.device) # quant baseline
 
                 path = x_transform - baseline 
                 
-                acc_grad = 0            
+                acc_grad = 0           
+                #interpolation loop for IG 
                 for i_inter in range(self.N_intepolate):
 
                     x_interplotate = baseline + (i_inter + self.lamb) / self.N_intepolate * path  
@@ -111,20 +121,20 @@ class MUMODIG(MIFGSM):
                     logits = self.get_logits(x_interplotate)
 
                     loss = self.get_loss(logits, label)
-                     
+                    #gradient computation
                     if i_base + 1  == self.N_base and i_inter + 1 == self.N_intepolate:
                         each_ig_grad = self.get_grad(loss, delta)
                     else:
                         each_ig_grad = self.get_repeat_grad(loss, delta) # 
 
                     acc_grad += each_ig_grad 
-
+                #add weighted IG for this transformation path 
                 ig += acc_grad * path  
 
 
 
         return ig
-
+    #gradient util below
 
     def get_repeat_grad(self, loss, delta, **kwargs):
         """

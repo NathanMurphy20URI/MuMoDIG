@@ -7,6 +7,7 @@ import transferattack
 from transferattack.utils import *
 
 def get_parser():
+    #arguments for running, already well described in code!
     parser = argparse.ArgumentParser(description='Generating transferable adversaria examples')
     parser.add_argument('-e', '--eval', action='store_true', help='attack/evluation')
     parser.add_argument('--attack', default='mumodig', type=str, help='the attack algorithm', choices=transferattack.attack_zoo.keys())
@@ -41,21 +42,21 @@ def main():
 
     dataset = AdvDataset(input_dir=args.input_dir, output_dir=args.output_dir, targeted=args.targeted, eval=args.eval)
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=args.batchsize, shuffle=False, num_workers=4)
-
-    if not args.eval:                                # attack
+    #attack mode!
+    if not args.eval:
         if args.attack in transferattack.attack_zoo: 
-            if args.ensemble:
+            if args.ensemble: #supports ensemble attack, discussed in class. multiple gradient averages from multiple models to improve transferability 
                 args.model = ['resnet18', 'efficientnet_b0', 'mobilenet_v3_small', 'deit_tiny_patch16_224', 'pit_ti_224', 'swin_small_patch4_window7_224'] # example for ensemble attack
             attacker = transferattack.attack_zoo[args.attack.lower()](model_name = args.model, targeted = args.targeted)
 
         else:
             raise Exception("Unspported attack algorithm {}".format(args.attack))
-
+        #shows progress bar + processing
         for batch_idx, [images, labels, filenames] in tqdm.tqdm(enumerate(dataloader)):
 
             perturbations = attacker(images, labels)
             save_images(args.output_dir, images + perturbations.cpu(), filenames)
-    else: # eval
+    else: #eval mode
         asr = dict()
         res = '|'
         for model_name, model in load_pretrained_model(cnn_model_paper,vit_model_paper):

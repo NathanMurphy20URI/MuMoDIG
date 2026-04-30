@@ -15,7 +15,7 @@ import scipy.stats as st
 # import random
 
 class MUMODIG_PNAPO(MIFGSM):
-
+#pairing MUMODIG with PNAPO (Pay No Attention and Patch Out) increases the attack success rate of adversial examples
 
     # 注意测试时是 num_scale=5
     def __init__(self, model_name, epsilon=16/255, alpha=1.6/255, epoch=10, decay=1., 

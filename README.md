@@ -13,25 +13,36 @@ Attack success rate (ASR) is evaluated across a suite of pretrained CNN and ViT 
 <ol>
   <li>Install the packages listed in the Software Installation Section (see below).</li>
   <li>Download the github codebase.
-  <li>Run the "get_vit_[weights.py](http://weights.py)" file. This pulls weights from timm and places them in the vit_weight folder.</li>
-  <li>Open the project and [main.py](http://main.py) file in the Python IDE of your choice. Run the [main.py](http://main.py) file to generate adversarials</li>
+  <li>Run the "get_vit_weights.py" file. This pulls weights from timm and places them in the vit_weight folder.</li>
+  <li>Open the project and main.py file in the Python IDE of your choice. Run the main.py file to generate adversarials</li>
   <li>Use the -e flag to evaluate the adversarials. </li>  
   <li>Generate adversarials and evaluate them using different flags, listed in the file.</li>
 </ol>
 
 ### Software Installation
---index-url https://download.pytorch.org/whl/cu116  
-torch==1.12.1+cu116  
-torchvision==0.13.1+cu116  
-tqdm  
+Python >= 3.6  
+PyTorch >= 1.12.1  
+Torchvision >= 0.13.1  
+timm >= 0.6.12  
+tqdm   
 pandas  
-timm  
 scikit-optimize  
 matplotlib  
 kornia  
 
 ### Models
-This adversarial attack works off CNN attacks (Res-Net 18 used by default from Torchnet), as well as ViT's such as Pooling Based Vision Transformer
+This attack supports both CNN and Vision Transformer (ViT) surrogate models:  
+
+CNNs: ResNet-18 (default), DenseNet-121, EfficientNet-B0, MobileNet-V3-Small   
+
+
+ViTs: DeiT-Tiny (deit_tiny_patch16_224), PiT-Ti (pit_ti_224), CoaT-Tiny (coat_tiny), Swin-Tiny (swin_tiny_patch4_window7_224)  
+ViT's may be obtained using the get_vit_weights.py file mentioned above.
+
+For ensemble attacks, the default surrogate set is: ResNet-18, EfficientNet-B0, MobileNet-V3-Small, DeiT-Tiny, PiT-Ti, and Swin-Small.
 
 ### System Requirements
-Internet Connection Required. 
+Internet Connection Required. Cuda-compatible GPU Recommended. All attacks were tested on Windows 11 using a NVIDIA Geforce RTX 4060 Laptop GPU, and 12GB of RAM. Recommended 20+ GB of Storage. Ensemble attack recommends a larger amount of RAM for speed purposes.
+
+# Contact
+All followup questions and inquiries may be sent to nathanmurphy20@uri.edu 

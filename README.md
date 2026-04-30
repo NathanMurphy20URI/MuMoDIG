@@ -9,7 +9,7 @@ All attacks are implemented using PyTorch and evaluated on ImageNet-compatible i
 Supported attack algorithms (via --attack) include MuMoDIG, MuMoDIG-PNA, and MuMoDIG-SGM, with optional ensemble attacks across multiple surrogate models.  
 Each attack can be run from the command line by specifying the desired algorithm, source model, epsilon budget, and input/output directories. Untargeted and targeted attack modes are both supported.  
 Attack success rate (ASR) is evaluated across a suite of pretrained CNN and ViT models using the --eval flag.
-### Step by Step Guide
+# Step by Step Guide
 <ol>
   <li>Install the packages listed in the Software Installation Section (see below).</li>
   <li>Download the github codebase.
@@ -19,7 +19,7 @@ Attack success rate (ASR) is evaluated across a suite of pretrained CNN and ViT 
   <li>Generate adversarials and evaluate them using different flags, listed in the file.</li>
 </ol>
 
-### Software Installation
+# Software Installation
 Python >= 3.6  
 PyTorch >= 1.12.1  
 Torchvision >= 0.13.1  
@@ -30,7 +30,7 @@ scikit-optimize
 matplotlib  
 kornia  
 
-### Models
+# Models
 This attack supports both CNN and Vision Transformer (ViT) surrogate models:  
 
 CNNs: ResNet-18 (default), DenseNet-121, EfficientNet-B0, MobileNet-V3-Small   
@@ -41,7 +41,7 @@ ViT's may be obtained using the get_vit_weights.py file mentioned above.
 
 For ensemble attacks, the default surrogate set is: ResNet-18, EfficientNet-B0, MobileNet-V3-Small, DeiT-Tiny, PiT-Ti, and Swin-Small.
 
-### System Requirements
+# System Requirements
 Internet Connection Required. Cuda-compatible GPU Recommended. All attacks were tested on Windows 11 using a NVIDIA Geforce RTX 4060 Laptop GPU, and 12GB of RAM. Recommended 20+ GB of Storage. Ensemble attack recommends a larger amount of RAM for speed purposes.
 
 # Contact

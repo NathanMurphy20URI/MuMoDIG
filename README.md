@@ -1,5 +1,5 @@
 # Multiple Monotonic Diversified Integrated Gradients (MuMoDIG)
-Final Project for CSC592 at URI.  
+Final Project for CSC492 at URI.  
 
 This code is from the 2025 AAAI Conference Paper ["Improving Integrated Gradient-based Transferable Adversarial Examples by Refining the Integration Path"](https://ojs.aaai.org/index.php/AAAI/article/view/32722).   
 Original attack code for this paper is sourced at [a Github located here](https://github.com/RYC-98/MuMoDIG/tree/main).  
